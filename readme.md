@@ -1,8 +1,8 @@
 # To run the repo
 
 1. npm install
-2. Set .env with DATABASE_URL and SESSION_SECRET which is the url that allows the database to be connected to the server and users persisted.
-3. npm run dev
+1. Set .env with DATABASE_URL and SESSION_SECRET which is the url that allows the database to be connected to the server and users persisted.
+1. npm run dev
 
 # Usage
 
