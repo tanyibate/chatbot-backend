@@ -1,17 +1,19 @@
-# To run the repo
+# README!
+
+## To run the repo
 
 1. npm install
 2. Set .env with DATABASE_URL and SESSION_SECRET which is the url that allows the database to be connected to the server and users persisted.
 3. npm run dev
 
-# Usage
+## Usage
 
 Recommended use is with the the front end repo but it can also be used with API clients such as POSTMAN and curl.
 To use the api first post to the login route with the credentials email:test@mail.com, password: password.
 Then to ask the chatbot a question look in responses.js and post to the response api route with
 message:[any question from responses.js].
 
-# Error debugging
+## Error debugging
 
 If there is a crash restart the server by killing the process and restarting it using npm run dev.
 If database is not functioning use the other database connection adapter in ormconfig.js with a local database.
