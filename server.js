@@ -62,7 +62,7 @@ typeorm.createConnection().then(async (connection) => {
       return next();
     }
 
-    res.status(401).send("anauthorized");
+    res.status(401).send("unauthorized");
   }
 
   function checkNotAuthenticated(req, res, next) {
