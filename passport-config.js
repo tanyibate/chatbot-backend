@@ -11,6 +11,7 @@ function initialize(passport, getUserByEmail, getUserById) {
 
     try {
       if (await bcrypt.compare(password, user.password)) {
+        // encrypt provided password and compare to the users actual password
         return done(null, user);
       } else {
         return done(null, false, { message: "Password incorrect" });

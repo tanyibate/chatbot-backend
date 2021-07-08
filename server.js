@@ -2,12 +2,26 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
+/*
+    if authentication isnt working remove checkAuthenticated middleware from /response route
+*/
+
 const express = require("express");
 const app = express();
 var typeorm = require("typeorm");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const session = require("express-session");
+var cors = require("cors");
+
+const methods = require("./routes");
+app.use(
+  cors({
+    origin: "http://localhost:3000", // allow to server to accept request from different origin(set this to your own app url)
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // allow session cookie from browser to pass through
+  })
+);
 
 typeorm.createConnection().then(async (connection) => {
   const initializePassport = require("./passport-config");
@@ -18,7 +32,6 @@ typeorm.createConnection().then(async (connection) => {
     async (email) => await users.findOne({ email: email }),
     async (id) => await users.findOne(id)
   );
-
   app.use(express.json());
   app.use(
     session({
@@ -38,27 +51,7 @@ typeorm.createConnection().then(async (connection) => {
     }
   );
 
-  app.post("/register", checkNotAuthenticated, async (req, res) => {
-    const { email, password } = req.body;
-    console.log(password);
-    const hashedPassword = await bcrypt.hash(password, 10); // hashing password for security so if db gets comprimised passwords cannot get retrieved
-    let user = { email: email, password: hashedPassword };
-    users
-      .save(user)
-      .then(function (savedUser) {
-        console.log("User has been saved: ", savedUser);
-        console.log("Now lets load all users: ");
-        res.json(savedUser);
-        return users.find();
-      })
-      .then(function (allUsers) {
-        console.log("All users: ", allUsers);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(422).send("could not add user to database");
-      });
-  });
+  app.post("/register", checkNotAuthenticated, methods.register);
 
   app.delete("/logout", (req, res) => {
     req.logOut();
@@ -79,10 +72,9 @@ typeorm.createConnection().then(async (connection) => {
     next();
   }
 
-  app.get("/", async (req, res) => {
-    const user = await users.findOne(1);
-    res.json(user);
-  });
+  app.post("/response", checkAuthenticated, methods.returnResponse);
+
+  app.get("/users/:id", methods.getUser);
 
   app.listen(4000);
 });
