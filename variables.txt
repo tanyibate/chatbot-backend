@@ -1,0 +1,6 @@
+SESSION_SECRET=123
+DATABASE_NAME=chatbot
+DATABASE_USER=admin
+DATABASE_HOST=localhost
+DATABASE_PASSWORD=password
+DATABASE_URL=postgres://xzbrjulkoujtqp:eb2b173bb973634e1efb47d952d987e443aabd4ef1837817c5c0cd1a5c131bb2@ec2-54-74-95-84.eu-west-1.compute.amazonaws.com:5432/dc8ff7gk0bj6vm

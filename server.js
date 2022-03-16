@@ -9,7 +9,6 @@ if (process.env.NODE_ENV !== "production") {
 const express = require("express");
 const app = express();
 var typeorm = require("typeorm");
-const bcrypt = require("bcrypt");
 const passport = require("passport");
 const session = require("express-session");
 var cors = require("cors");
@@ -17,7 +16,7 @@ var cors = require("cors");
 const methods = require("./routes");
 app.use(
   cors({
-    origin: "http://localhost:3000", // allow to server to accept request from different origin(set this to your own app url)
+    origin: process.env.FRONTEND_URL, // allow to server to accept request from different origin(set this to your own app url)
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // allow session cookie from browser to pass through
   })
@@ -76,5 +75,5 @@ typeorm.createConnection().then(async (connection) => {
 
   app.get("/users/:id", methods.getUser);
 
-  app.listen(4000);
+  app.listen(process.env.PORT || 4000);
 });
