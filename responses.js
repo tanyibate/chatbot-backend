@@ -5,7 +5,7 @@ const responses = [
   },
   {
     question: "Where are you based?",
-    answer: "You can visit us Miami and Portland.",
+    answer: "You can visit us in Miami and Portland.",
   },
   {
     question: "Do you do deliveries?",

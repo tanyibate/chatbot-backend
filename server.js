@@ -12,8 +12,8 @@ var typeorm = require("typeorm");
 const passport = require("passport");
 const session = require("express-session");
 var cors = require("cors");
+const router = require("./routes");
 
-const methods = require("./routes");
 app.use(
   cors({
     origin: process.env.FRONTEND_URL, // allow to server to accept request from different origin(set this to your own app url)
@@ -41,39 +41,7 @@ typeorm.createConnection().then(async (connection) => {
   );
   app.use(passport.initialize());
   app.use(passport.session());
-
-  app.post(
-    "/login",
-    [checkNotAuthenticated, passport.authenticate("local")],
-    (req, res) => {
-      res.send("succesful signin");
-    }
-  );
-
-  app.post("/register", checkNotAuthenticated, methods.register);
-
-  app.delete("/logout", (req, res) => {
-    req.logOut();
-  });
-
-  function checkAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-
-    res.status(401).send("unauthorized");
-  }
-
-  function checkNotAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-      res.send("session is already in place");
-    }
-    next();
-  }
-
-  app.post("/response", checkAuthenticated, methods.returnResponse);
-
-  app.get("/users/:id", methods.getUser);
+  app.use(router);
 
   app.listen(process.env.PORT || 4000);
 });
