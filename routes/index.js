@@ -17,11 +17,7 @@ router.delete("/logout", (req, res) => {
   req.logOut();
 });
 
-router.post(
-  "/response",
-  middleware.checkAuthenticated,
-  controller.returnResponse
-);
+router.post("/response", controller.returnResponse);
 
 router.get("/users/:id", controller.getUser);
 
